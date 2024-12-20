@@ -37,7 +37,7 @@ class Atendimento {
                 if(erro){
                     res.status(400).json(erro)
                 } else {
-                    res.status(201).json(resultados)
+                    res.status(201).json(atendimento)
                     console.log(`Os dados foram inseridos com sucesso!`, `ID do atendimento:`, resultados.insertId, atendimentoDatado)
                 }
             })
@@ -82,8 +82,22 @@ class Atendimento {
                 res.status(400).json(erro)
                 console.log(erro)
             }else{
-                res.status(200).json(resultados)
+                res.status(200).json({...valores, id})
                 console.log('Alteração feita com sucesso')
+            }
+        })
+    }
+
+    deleta(id, res){
+        const sql = 'delete from atendimentos where id = ?'
+        
+        conexao.query(sql, id, (erro, resultados) =>{
+            if(erro){
+                res.status(400).json(erro)
+                console.log(erro)
+            }else{
+                res.status(200).json({id})
+                console.log('Usuário deletado com sucesso')
             }
         })
     }
