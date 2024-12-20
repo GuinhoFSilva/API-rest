@@ -21,8 +21,8 @@ class Atendimento {
             mensagem: 'O nome do cliente deve conter cinco ou mais caracteres'
         }
         ]
-        
-         const errosExistem = erros.length
+        const erros = validacao.filter(campo => !campo.valido)
+        const errosExistem = erros.length
 
         if(errosExistem){
             res.status(400).json(erros)
@@ -42,6 +42,33 @@ class Atendimento {
                 }
             })
         }
+    }
+
+    lista(res) {
+        const sql = 'select * from atendimentos'
+
+        conexao.query(sql, (erro, resultados) => {
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json(resultados)
+                console.log(resultados)
+            }
+        })
+    }
+
+    buscaPorId(id, res){
+        const sql = `select * from atendimentos where id = ${id}`
+
+        conexao.query(sql, (erro, resultados) => {
+            const atendimento = resultados[0]
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json(atendimento)
+                console.log(atendimento)
+            }
+        })
     }
 }
 
