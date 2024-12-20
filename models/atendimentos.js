@@ -70,6 +70,23 @@ class Atendimento {
             }
         })
     }
+
+    altera(id, valores, res){
+        if(valores.dataAtendimento){
+            valores.dataAtendimento = moment(valores.dataAtendimento, 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss')
+        }
+        const sql = `update atendimentos set ? where id = ?`
+
+        conexao.query(sql, [valores, id], (erro, resultados) => {
+            if(erro){
+                res.status(400).json(erro)
+                console.log(erro)
+            }else{
+                res.status(200).json(resultados)
+                console.log('Alteração feita com sucesso')
+            }
+        })
+    }
 }
 
 module.exports = new Atendimento
