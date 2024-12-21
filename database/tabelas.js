@@ -4,6 +4,7 @@ class Tabelas{
         this.conexao = conexao
 
         this.criarAtendimentos()
+        this.salvarPets()
     }
 
     criarAtendimentos(){
@@ -13,7 +14,19 @@ class Tabelas{
             if(erro){
                 console.log(erro)
             } else {
-                console.log("Tabela atendimentos criada com sucesso", sql)
+                console.log("Tabela atendimentos criada com sucesso!")
+            }
+        })
+    }
+
+    salvarPets(){
+        const sql = 'create table if not exists pets (id int not null auto_increment, nome varchar(50), imagem varchar(200), primary key(id));'
+
+        this.conexao.query(sql, (erro) => {
+            if(erro){
+                console.log(erro)
+            }else{
+                console.log("Tabela pets criada com sucesso!")
             }
         })
     }
