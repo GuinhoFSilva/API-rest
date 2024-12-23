@@ -4,6 +4,8 @@ const conexao = require('./database/conexao')
 
 const Tabelas = require('./database/tabelas')
 
+const {portaAPI} = require('./config/config')
+
 conexao.connect(erro => {
     if(erro){
         console.log(erro)
@@ -14,9 +16,7 @@ conexao.connect(erro => {
 
         const app = customExpress()
 
-        const porta = 3000;
-
-        app.listen(porta, () => console.log(`Servidor rodando na porta ${porta} `));
+        app.listen(portaAPI, () => console.log(`Servidor rodando na porta ${portaAPI} `));
     }
 })
 

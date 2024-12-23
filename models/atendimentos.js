@@ -1,6 +1,11 @@
 const moment = require('moment');
 
+const axios = require('axios')
+
 const conexao = require("../database/conexao");
+
+const {portaAPIExterna} = require("../config/config")
+
 
 class Atendimento {
     adicionar(atendimento, res){
@@ -60,11 +65,14 @@ class Atendimento {
     buscaPorId(id, res){
         const sql = `select * from atendimentos where id = ${id}`
 
-        conexao.query(sql, (erro, resultados) => {
+        conexao.query(sql, async (erro, resultados) => {
             const atendimento = resultados[0]
+            const cpf = atendimento.cliente
             if(erro){
                 res.status(400).json(erro)
             }else{
+                const {data} = await axios.get(`http://localhost:${portaAPIExterna}/${cpf}`)
+                atendimento.cliente = data
                 res.status(200).json(atendimento)
                 console.log(atendimento)
             }
